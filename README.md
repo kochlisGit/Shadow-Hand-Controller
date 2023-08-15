@@ -121,3 +121,22 @@ Just like BC Neural Network, PPO receives pairs of (sign, order) as inputs and o
 * **ray[rllib]==2.3.1** https://docs.ray.io/en/latest/rllib/index.html
 * **gymnasium==0.26.1** https://gymnasium.farama.org/
 * **matplotlib==3.7.2** https://matplotlib.org/
+
+# How to Run
+
+**python generate_expert_dataset.py** to build a dataset. The hand can switch gestures using key buttons (1-7). THe mouse can be used to navigate through the simulation world
+**python train_nn.py** to train and evaluate the Neural Network
+**python train_ppo.py** to train and evaluate PPO agent
+**python simulate_neural_network_controller.py** to deploy and evaluate the Neural-Network-Based controller
+**python simulate_neural_network_controller.py** to deploy and evaluate the PPO-Based controller
+
+# Parameters Explanation
+1. *trajectory_steps*: The number of intermidate controls to execute between two consecutive controls (e.g. if `start_ctrl = [1,1,1], end_ctrl = [2,2,2] and trajectory_steps=5`, then the hand executes 2 + 3 controls between [1,1,1] and [2,2,2]. This is only required for visualization purposes, as the simulator instantly execute the controls within a single step.
+2. *cam_verbose*: Prints the camera position in terminal (This helps initially adjust the camera position & orientation).
+3. *sim_verbose*: Prints the controls of each actuator at each timestep.
+4. *one_hot_signs*: Whether to one-hot signs and orders. If false, then signs and orders will be returned as strings and integers respectively. However, both the neural network and the drl agent will have to be modified in order to allow the use of strings as input. One way to do it is to add an embedding layer (https://www.tensorflow.org/text/guide/word_embeddings). This could be useful in cases where the number of gestures, as well as the sequence sizes of signs are extremely large, so one-hot encoding method cannot be used.
+5. *learning_rate*: The leearning rate of the neural network. This reduces the network updates, ensuring that the network will converge slowly to local minimum. 0.001 is a good typical valuee
+6. *epochs*: The number of epochs to train the network (Number of times the dataset will be fed to the network). Defaults to 1000.
+7. *loss_fn*: The loss function of neural network. Defaults to "MAE".
+8. *train_iterations*: The number of iterarations the agent will be trained. Defaults to 1000.
+9. *seed*: The random seed, which is used to generate random numbers. This enables the experiments to be reproduced. Defaults to 0.
