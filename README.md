@@ -115,6 +115,7 @@ Just like BC Neural Network, PPO receives pairs of (sign, order) as inputs and o
 ![](https://github.com/kochlisGit/Shadow-Hand-Controller/blob/main/figures/ppo_performance.png)
 
 # Python Version & Libraries
+
 * **python==3.9** https://www.python.org/downloads/release/python-390/
 * **mujoco=2.3.7** https://github.com/deepmind/mujoco
 * **tensorflow==2.9.1** https://www.tensorflow.org/install
@@ -124,13 +125,14 @@ Just like BC Neural Network, PPO receives pairs of (sign, order) as inputs and o
 
 # How to Run
 
-**python generate_expert_dataset.py** to build a dataset. The hand can switch gestures using key buttons (1-7). THe mouse can be used to navigate through the simulation world
-**python train_nn.py** to train and evaluate the Neural Network
-**python train_ppo.py** to train and evaluate PPO agent
-**python simulate_neural_network_controller.py** to deploy and evaluate the Neural-Network-Based controller
-**python simulate_neural_network_controller.py** to deploy and evaluate the PPO-Based controller
+* **python generate_expert_dataset.py** to build a dataset. The hand can switch gestures using key buttons (1-7). THe mouse can be used to navigate through the simulation world
+* **python train_nn.py** to train and evaluate the Neural Network
+* **python train_ppo.py** to train and evaluate PPO agent
+* **python simulate_neural_network_controller.py** to deploy and evaluate the Neural-Network-Based controller
+* **python simulate_neural_network_controller.py** to deploy and evaluate the PPO-Based controller
 
 # Parameters Explanation
+
 1. *trajectory_steps*: The number of intermidate controls to execute between two consecutive controls (e.g. if `start_ctrl = [1,1,1], end_ctrl = [2,2,2] and trajectory_steps=5`, then the hand executes 2 + 3 controls between [1,1,1] and [2,2,2]. This is only required for visualization purposes, as the simulator instantly execute the controls within a single step.
 2. *cam_verbose*: Prints the camera position in terminal (This helps initially adjust the camera position & orientation).
 3. *sim_verbose*: Prints the controls of each actuator at each timestep.
