@@ -1,5 +1,11 @@
 # Shadow-Hand-Controller
 
+# Shadow-Hand-Description
+
+![shadow-hand-image](https://github.com/deepmind/mujoco_menagerie/blob/main/shadow_hand/shadow_hand.png)
+
+The shadow-hand model can be found in *mujoco_menagerie* repository here: https://github.com/deepmind/mujoco_menagerie/tree/main/shadow_hand
+
 # Python Version & Libraries
 * **python==3.9** https://www.python.org/downloads/release/python-390/
 * **mujoco=2.3.7** https://github.com/deepmind/mujoco
