@@ -10,6 +10,8 @@ We constructed a controller for Shadow-Hand model in Mujoco environment using De
 6. Rock
 7. Circle
 
+Shadow-Hand DEMO: https://youtu.be/vT_boOel3fU
+
 # Shadow-Hand Description
 
 ![shadow-hand-image](https://github.com/deepmind/mujoco_menagerie/blob/main/shadow_hand/shadow_hand.png)
