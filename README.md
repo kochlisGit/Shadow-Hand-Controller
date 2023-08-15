@@ -100,7 +100,7 @@ Now, these features can be concatenated and inserted into the neural network/DRL
 
 # Neural Network (BC)
 
-The goal of the neural network is to predict the control values of the 20 actuators: $ \hat{y_{0}}, \hat{y_{1}}, \hat{y_{1}}, ..., \hat{y_{19}} $, by using the sign,order pair as inputs. To do that, the network outputs a control prediction, and uses the Mean Absolute Error (MAE) function in order to evaluate its prediction error. Then, the network uses *Adam* optimizer, which is an improvement of *Gradient Descent* algorithm, in order to update its weights and reduce the MAE. If $y$ and $\hat{y}$ are the target (actual) and predicted control respectively, then MAE is defined as:
+The goal of the neural network is to predict the control values of the 20 actuators: $\hat{y_{0}}, \hat{y_{1}}, \hat{y_{2}}, \hat{y_{3}}, ..., \hat{y_{19}}$, by using the sign,order pair as inputs. To do that, the network outputs a control prediction, and uses the Mean Absolute Error (MAE) function in order to evaluate its prediction error. Then, the network uses *Adam* optimizer, which is an improvement of *Gradient Descent* algorithm, in order to update its weights and reduce the MAE. If $y$ and $\hat{y}$ are the target (actual) and predicted control respectively, then MAE is defined as:
 
 $\frac{1}{N} * \sum_{i=1}^{N} |y_i - \hat{y_i}|$
 
@@ -110,7 +110,7 @@ $\frac{1}{N} * \sum_{i=1}^{N} |y_i - \hat{y_i}|$
 
 Proximal Policy Optimization (PPO) is a popular policy gradient algoithm that addresses some challenges in training stability and efficiency faced by Trust Region Policy Optimization (TRPO). PPO introduces a clipping mechanism to prevent the policy from being updated too drastically in any single step (prevents the weights from receiving large updates and change drastically), ensuring that the new policy doesn't deviate too much from the old one. When udating the policy, instead of directly maximizing the expected reward, PPO aims to maximize a clipped version of the objective function. This clipped objective limits the ratio of the probabilities of the new and old policies. Specifically, if the new policy would increase the action's probability significantly compared to the old policy, this change is clipped to be within a specified range (e.g., between 0.8 and 1.2). This prevents overly aggressive updates which could quickly converge into sub-optimal policies. This range is defined by a clipping parameter $e$, which is typically set between $\[0.1, 0.3\]$.
 
-Just like BC Neural Network, PPO receives pairs of (sign, order) as inputs and outputs the target control of the hand. Then, instead of using a Loss (Error) Function to evaluate its error, it uses a reward function to receive rewards, which it tries to maximize in each iteration. The reward function is defined as $r_{t} = \frac{1}{euclidean(y_{t} - \hat{y_{t}})}$, where *euclidean* is the euclidean distance between the predicted and target control. 
+Just like BC Neural Network, PPO receives pairs of (sign, order) as inputs and outputs the target control of the hand. Then, instead of using a Loss (Error) Function to evaluate its error, it uses a reward function to receive rewards, which it tries to maximize in each iteration. The reward function $R$ is defined as $R_{t} = \frac{1}{euclidean(y_{t} - \hat{y_{t}})}$, where *euclidean* is the euclidean distance between the predicted and target control. 
 
 ![](https://github.com/kochlisGit/Shadow-Hand-Controller/blob/main/figures/ppo_performance.png)
 
