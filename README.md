@@ -98,9 +98,13 @@ The neural network receives an input vector and outputs the control vector. Whil
 
 Now, these features can be concatenated and inserted into the neural network/DRL agent controller.
 
-# Neural Network Performance
+# Neural Network Performance (BC)
 
+![](https://github.com/kochlisGit/Shadow-Hand-Controller/blob/main/figures/nn_performance.png)
 
+# Proximal Policy Optimization Peformance (DRL)
+
+![](https://github.com/kochlisGit/Shadow-Hand-Controller/blob/main/figures/ppo_performance.png)
 
 # Python Version & Libraries
 * **python==3.9** https://www.python.org/downloads/release/python-390/
