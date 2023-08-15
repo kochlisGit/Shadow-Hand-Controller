@@ -54,7 +54,7 @@ The position as well as the control range of each actuator of the hand are provi
 Behavioral Cloning (BC) is a method of teaching controllers to perform tasks by observing and imitating human experts. It's particularly common technique in robotics, where a model learns to perform tasks by imitating humans. This method involves:
 
 1. **Data Collection**: A human expert should construct a dataset, which consists of pairs: **(Observations, Actions)**.
-2. **Learning Algorithm**: A learning algorithm is then designed in order to map the Observations (Inputs) to expected Actions (Outputs).
+2. **Learning Algorithm**: A learning algorithm (e.g. a neural network) is then designed in order to map the Observations (Inputs) to expected Actions (Outputs).
 3. **Deployment**: The controller is then evaluated & deployed on the physical model.
 
 # Deep Reinforcement Learning
@@ -144,3 +144,26 @@ Just like BC Neural Network, PPO receives pairs of (sign, order) as inputs and o
 7. *loss_fn*: The loss function of neural network. Defaults to "MAE".
 8. *train_iterations*: The number of iterarations the agent will be trained. Defaults to 1000.
 9. *seed*: The random seed, which is used to generate random numbers. This enables the experiments to be reproduced. Defaults to 0.
+
+# Custom Controller
+
+A custom Model Controller can be provided in GLFWSimulator class in order o control hand's actuators (Check *simulate_neural_network_controller.py* and *simulate_neural_network_controller.py* examples). The following line can be modified
+
+```
+hand_controller = Controller(
+        model=agent,
+        ctrl_limits=ctrl_limits
+    )
+```
+
+so that the agent is replaced with a custom Agent. The agent (or model) should inherit the `Controller class`, found in *controllers/controller.py* file and define the following methods:
+* `def _set_sign(self, sign: str)`: Sets the controller's behavior to specified sign
+* `def _get_next_control(self, sign: str, order: int)`: Gets the next control of the specified sign (e.g. if a sign is defined as 10 sequential controls, then `get_next_control` should return the next predicted control of that sequence (Check *model.py* file).
+  
+# Simulation Environment
+
+The simulation environment is writen using GLFW library, which is provided by Mujoco. It can easily be modified by modifying the `while` loop of *simulaton/pyopengl.py* file. 
+
+# Custom Neural Network
+
+The Neural Network is built in *models/tf/nn.py* using Tensorflow library. A custom Neural Network can be built by extending the 
