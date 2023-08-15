@@ -166,4 +166,12 @@ The simulation environment is writen using GLFW library, which is provided by Mu
 
 # Custom Neural Network
 
-The Neural Network is built in *models/tf/nn.py* using Tensorflow library. A custom Neural Network can be built by extending the 
+The Neural Network is built in *models/tf/nn.py* using Tensorflow library. A custom Neural Network can be built by extending the *build* method of `NeuralNetwork class`. The current architectures uses 2 layers of 128 units for each input vector (128 for sign vector and 128 for order vector) and ReLU activation function in each layer. Then, the 2 layers are concatenated into a vector of 256 units, which is then followed by another layer of 128 neurons and finally 20 output units. The final 20 units are used to set the actuator controls.
+
+# Custom Agent
+
+This repository uses PPO agent of RLLib. However, several things can be added:
+1. Fine-Tune (search better parameters for PPO). Currently, the algorith, uses the default parameters of PPO, as described by *John Schulman et. al* in the original paper https://arxiv.org/abs/1707.06347
+2. Add a stronger learning algorithm: e.g. **Soft Actor-Critic, a.k.a. SAC** is known to have very strong performance in Mujoco environments: https://arxiv.org/pdf/1801.01290.pdf
+3. Increase the training iterations: In the pre-trained models provided in this library, both Neural Network and PPO agent were trained for 1000 iterations. Although the Neural Network converged to a small error, PPO requires more training iterations in order to converge. That's the reason PPO's controller appears to have a weird behavior.
+4. Add a custom Neural Network as the Actor-Critic model. This is a very difficult task to achieve, however, we have created a repository for that purpose as well: https://github.com/kochlisGit/Deep-RL-Frameworks
