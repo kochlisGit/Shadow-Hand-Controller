@@ -64,7 +64,7 @@ There are two popular family of algorithms that are used in DRL problems:
  
 ![](https://miro.medium.com/v2/resize:fit:4800/format:webp/1*wfKvMsVMkUhEGz1YH7kCQA.png)
 
-2. **Policy-Gradient Methods**: Instead of computing the estimated returns, Policy-Gradient methods directly optimize the policy function without the necessity of a value function as an intermediary. The policy is typically parameterized by a set of weights (e.g. a neural network), and learning involves adjusting these weights to maximize expected reward. The idea is that by changing the weights of a neural network, and thus changing the selected actions, it also changes the rewards that the agent receives by the environment. The goal of the agent is to changes its policy (its weights) in the directin that maximizes its rewards, as shown below.
+2. **Policy-Gradient Methods**: Instead of computing the estimated returns, Policy-Gradient methods directly optimize the policy function without the necessity of a value function as an intermediary. The policy is typically parameterized by a set of weights (e.g. a neural network), and learning involves adjusting these weights to maximize expected reward. The idea is that by changing the weights of a neural network, and thus changing the selected actions, it also changes the rewards that the agent receives by the environment. The goal of the agent is to changes its policy (its weights) in the directin that maximizes its rewards, as shown below. One major advantage of Policy-Gradient methods over Value-Based methods is that they allow the use of continuous actions (e.g. float values), instead of discrete actions (e.g. 1,2,3). This is specifically useful in Mujoco environments, such as ours, where the goal is to predict the control (float values) of each actuator.
 
 ![](https://assets.website-files.com/62699d12d5bdec228b8eb739/62699d12d5bdec222e8eb9b6_61e98062f113c14630a6a066_hzUAOMVlW5j8lXhv1mSbwpU5ihOBEwnxoRd4twRoiy17ZgYx09VJzuxz_TQvkHkS8NinIkWGsIjloVHo3tPyRt14lZ-C2HszlcT1YjDDNP8kZ6hqzkVg5pf_t1VHTw.png)
 
@@ -98,11 +98,19 @@ The neural network receives an input vector and outputs the control vector. Whil
 
 Now, these features can be concatenated and inserted into the neural network/DRL agent controller.
 
-# Neural Network Performance (BC)
+# Neural Network (BC)
+
+The goal of the neural network is to predict the control values of the 20 actuators: $ \hat{y_{0}}, \hat{y_{1}}, \hat{y_{1}}, ..., \hat{y_{19}} $, by using the sign,order pair as inputs. To do that, the network outputs a control prediction, and uses the Mean Absolute Error (MAE) function in order to evaluate its prediction error. Then, the network uses *Adam* optimizer, which is an improvement of *Gradient Descent* algorithm, in order to update its weights and reduce the MAE. If $y$ and $\hat{y}$ are the target (actual) and predicted control respectively, then MAE is defined as:
+
+$\frac{1}{N} * \sum_{i=1}^{N} |y_i - \hat{y_i}|$
 
 ![](https://github.com/kochlisGit/Shadow-Hand-Controller/blob/main/figures/nn_performance.png)
 
 # Proximal Policy Optimization Peformance (DRL)
+
+Proximal Policy Optimization (PPO) is a popular policy gradient algoithm that addresses some challenges in training stability and efficiency faced by Trust Region Policy Optimization (TRPO). PPO introduces a clipping mechanism to prevent the policy from being updated too drastically in any single step (prevents the weights from receiving large updates and change drastically), ensuring that the new policy doesn't deviate too much from the old one. When udating the policy, instead of directly maximizing the expected reward, PPO aims to maximize a clipped version of the objective function. This clipped objective limits the ratio of the probabilities of the new and old policies. Specifically, if the new policy would increase the action's probability significantly compared to the old policy, this change is clipped to be within a specified range (e.g., between 0.8 and 1.2). This prevents overly aggressive updates which could quickly converge into sub-optimal policies. This range is defined by a clipping parameter $e$, which is typically set between $\[0.1, 0.3\]$.
+
+Just like BC Neural Network, PPO receives pairs of (sign, order) as inputs and outputs the target control of the hand. Then, instead of using a Loss (Error) Function to evaluate its error, it uses a reward function to receive rewards, which it tries to maximize in each iteration. The reward function is defined as $r_{t} = \frac{1}{euclidean(y_{t} - \hat{y_{t}})}$, where *euclidean* is the euclidean distance between the predicted and target control. 
 
 ![](https://github.com/kochlisGit/Shadow-Hand-Controller/blob/main/figures/ppo_performance.png)
 
